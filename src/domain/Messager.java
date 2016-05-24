@@ -2,6 +2,9 @@ package domain;
 
 import core.Connection;
 
+import java.util.StringJoiner;
+import java.util.concurrent.Callable;
+
 /**
  * Created by abraa on 23/05/2016.
  */
@@ -24,11 +27,18 @@ public class Messager {
         this.connection.hangup();
     }
 
-    public void requestCurrentMessage() {
+    public String requestCurrentMessage(Callable<String> getCurrentMessage) {
         this.connection.dial("1");
         this.connection.dial("1");
-        //TODO: get current message here
+        String result = "";
+        try {
+            result = getCurrentMessage.call();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         this.connection.dial("4");
+        return result;
     }
 
     public void archiveCurrentMessage() {

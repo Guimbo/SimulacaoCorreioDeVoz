@@ -49,23 +49,25 @@ public class TelephoneForm implements Telephone {
     }
 
     private void startListnerEvents(){
+
         LoginForm login = this.form.getLoginForm();
         SenderForm senderForm = this.form.getSenderForm();
         MailboxForm managerMessages = this.form.getManagerMessages();
+        ChangeGreetingDialog changeGreeting =  this.form.getChangeGreetingDialog();
 
-        managerMessages.onRequestCurrentMessage(() -> {
-            this.messager.requestCurrentMessage();
-
-            return output;
-        });
+        managerMessages.onRequestCurrentMessage(() ->
+            this.messager.requestCurrentMessage(() -> output)
+        );
 
         senderForm.onMessage((String mailboxNumber, String message) ->
             this.messager.Send(mailboxNumber, message)
         );
 
-        login.onLogin((String ramal, String password) ->
-            this.auth.Login(ramal, password)
-        );
+        login.onLogin((String ramal, String password) -> {
+            this.auth.Login(ramal, password);
+            managerMessages.showMessages();
+            managerMessages.setVisible(true);
+        });
 
         managerMessages.onArchiveMessage(() ->
             this.messager.archiveCurrentMessage()
@@ -78,6 +80,24 @@ public class TelephoneForm implements Telephone {
         managerMessages.onLogout(() ->
             this.auth.Logout()
         );
+
+        managerMessages.onOpenChangePass(() ->{
+            login.changePass();
+            login.setVisible(true);
+        });
+
+        managerMessages.onOpenChangeGreeting(() ->
+            changeGreeting.setVisible(true)
+        );
+
+        managerMessages.onRequestCurrentGreeting(() ->
+            this.auth.requestCurrentGreeting(() -> output)
+        );
+
+        changeGreeting.onChange((String newGreeting) ->{
+            this.auth.changeGreating(newGreeting);
+            managerMessages.showMessages();
+        });
 
         login.onChangePass((String newPass) ->
             this.auth.changePass(newPass)
