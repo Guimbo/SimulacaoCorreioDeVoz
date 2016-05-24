@@ -45,8 +45,18 @@ public class AlteraSaudacao extends javax.swing.JFrame {
         jLabel3.setText("Digite uma nova saudação");
 
         btnAlterarS.setText("Alterar");
+        btnAlterarS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarSActionPerformed(evt);
+            }
+        });
 
         btnCancelaS.setText("Cancelar");
+        btnCancelaS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelaSActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -90,6 +100,14 @@ public class AlteraSaudacao extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>                        
+
+    private void btnAlterarSActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+    }                                           
+
+    private void btnCancelaSActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+    }                                           
 
     /**
      * @param args the command line arguments
